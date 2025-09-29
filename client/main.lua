@@ -4,7 +4,7 @@ local canSearch = false
 
 CreateThread(function()
     while true do
-        Wait(0)
+        local sleep = 1000
         local playerPed = PlayerPedId()
         local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
 
@@ -12,6 +12,7 @@ CreateThread(function()
             local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(entity))
 
             if not robbing and dist < 3.0 then
+                sleep = 0
                 lib.showTextUI('[E] Braquer le PNJ', {
                     position = "left-center",
                     icon = 'hand-middle-finger',
@@ -32,10 +33,10 @@ CreateThread(function()
             lib.hideTextUI()
         end
 
-
         if canSearch and targetPed and DoesEntityExist(targetPed) then
             local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed))
             if dist < 2.5 then
+                sleep = 0
                 lib.showTextUI('[E] Fouiller le PNJ', {
                     position = "left-center",
                     icon = 'box-open',
@@ -52,8 +53,11 @@ CreateThread(function()
                 lib.hideTextUI()
             end
         end
+
+        Wait(sleep)
     end
 end)
+
 
 
 function StartRobNPC(entity, playerPed)
