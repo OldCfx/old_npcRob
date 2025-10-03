@@ -1,6 +1,7 @@
 local robbing = false
 local targetPed = nil
 local canSearch = false
+local currentTextUI = nil
 
 CreateThread(function()
     while true do
@@ -13,44 +14,64 @@ CreateThread(function()
 
             if not robbing and dist < 3.0 then
                 sleep = 0
-                lib.showTextUI('[E] Braquer le PNJ', {
-                    position = "left-center",
-                    icon = 'hand-middle-finger',
-                    style = {
-                        borderRadius = 8,
-                        backgroundColor = '#000000',
-                        color = 'white'
-                    }
-                })
+                if currentTextUI ~= "rob" then
+                    lib.showTextUI('[E] Braquer le PNJ', {
+                        position = "left-center",
+                        icon = 'hand-middle-finger',
+                        style = {
+                            borderRadius = 8,
+                            backgroundColor = '#000000',
+                            color = 'white'
+                        }
+                    })
+                    currentTextUI = "rob"
+                end
 
                 if IsControlJustPressed(0, 38) then
                     StartRobNPC(entity, playerPed)
                 end
             else
-                lib.hideTextUI()
+                if currentTextUI == "rob" then
+                    lib.hideTextUI()
+                    currentTextUI = nil
+                end
             end
         else
-            lib.hideTextUI()
+            if currentTextUI == "rob" then
+                lib.hideTextUI()
+                currentTextUI = nil
+            end
         end
 
         if canSearch and targetPed and DoesEntityExist(targetPed) then
             local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(targetPed))
             if dist < 2.5 then
                 sleep = 0
-                lib.showTextUI('[E] Fouiller le PNJ', {
-                    position = "left-center",
-                    icon = 'box-open',
-                    style = {
-                        borderRadius = 8,
-                        backgroundColor = '#222222',
-                        color = 'white'
-                    }
-                })
+                if currentTextUI ~= "search" then
+                    lib.showTextUI('[E] Fouiller le PNJ', {
+                        position = "left-center",
+                        icon = 'box-open',
+                        style = {
+                            borderRadius = 8,
+                            backgroundColor = '#222222',
+                            color = 'white'
+                        }
+                    })
+                    currentTextUI = "search"
+                end
                 if IsControlJustPressed(0, 38) then
                     SearchNPC(targetPed)
                 end
             else
+                if currentTextUI == "search" then
+                    lib.hideTextUI()
+                    currentTextUI = nil
+                end
+            end
+        else
+            if currentTextUI == "search" then
                 lib.hideTextUI()
+                currentTextUI = nil
             end
         end
 
