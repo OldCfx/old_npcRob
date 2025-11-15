@@ -20,7 +20,7 @@ Config.Rewards = {
 }
 
 Config.alertJob = {
-    alert = true,         -- Activer l'alert (ESX OBLIGATOIR)
+    alert = false,        -- Activer l'alert (ESX OBLIGATOIR)
     jobs = { "ambulance", "police" },
     timeToRemoveBlip = 20 -- temps avant suppression du blip (en sec)
 }
