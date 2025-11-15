@@ -16,6 +16,32 @@ local function sendDiscordLog(title, message, color)
         { ['Content-Type'] = 'application/json' })
 end
 
+RegisterNetEvent("old_npcRob:alertJob", function(coords)
+    if Config.alertJob.alert then
+        ESX = exports['es_extended']:getSharedObject()
+        local groupedPlayers = ESX.GetExtendedPlayers("job", Config.alertJob.jobs)
+        for group, players in pairs(groupedPlayers) do
+            for i, xPlayer in ipairs(players) do
+                TriggerClientEvent("ox_lib:notify", xPlayer.source, {
+                    title = "Central",
+                    description = "Un individu a été aperçu en train de braquer un citoyen",
+                    type = "info",
+                    icon = "fa-solid fa-shield-halved",
+                    iconColor = "#1E90FF",
+                    position = "top-center",
+                    style = {
+                        backgroundColor = "#0b1e33",
+                        color = "white",
+                        border = "1px solid #1E90FF",
+                        borderRadius = "6px",
+                    }
+                })
+                TriggerClientEvent("old_npcRob:createBlip", xPlayer.source, coords)
+            end
+        end
+    end
+end)
+
 
 RegisterNetEvent('old_npcRob:reward', function(category, coords, weapon, netId)
     local src = source

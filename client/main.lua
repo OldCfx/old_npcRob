@@ -114,7 +114,7 @@ function StartRobNPC(entity, playerPed)
     ClearPedTasksImmediately(entity)
     TaskStandStill(entity, 10000)
 
-
+    TriggerServerEvent('old_npcRob:alertJob', GetEntityCoords(entity))
     RequestAnimDict("missminuteman_1ig_2")
     while not HasAnimDictLoaded("missminuteman_1ig_2") do Wait(0) end
     TaskPlayAnim(entity, "missminuteman_1ig_2", "handsup_base", 8.0, -8.0, -1, 49, 0, false, false, false)
@@ -215,4 +215,22 @@ RegisterNetEvent('old_npcRob:stashClosed', function(inventoryId)
     robbing = false
     targetPed = nil
     canSearch = false
+end)
+
+
+RegisterNetEvent("old_npcRob:createBlip")
+AddEventHandler("old_npcRob:createBlip", function(coords)
+    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+
+    SetBlipSprite(blip, 161)
+    SetBlipScale(blip, 2.0)
+    SetBlipColour(blip, 1)
+    SetBlipAlpha(blip, 70)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString("Vol de sac")
+    EndTextCommandSetBlipName(blip)
+
+    Citizen.SetTimeout(Config.alertJob.timeToRemoveBlip * 1000, function()
+        RemoveBlip(blip)
+    end)
 end)
