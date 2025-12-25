@@ -1,7 +1,6 @@
 Config = {}
 
---Logs discord
-Config.DiscordWebhook = ""
+
 
 
 Config.ProgressTime = 5 -- Tempes braquage + fouilles (en sec)

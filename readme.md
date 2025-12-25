@@ -46,7 +46,7 @@ Provide your players with a realistic and thrilling criminal experience!
 ## 🛠️ Installation
 1. Place the `old_npcRob` folder inside your server’s `resources` directory.  
 2. Ensure your dependencies (`ox_lib`, `ox_inventory`) are correctly installed.  
-3. Configure your loot tables and Discord webhook in `shared/config.lua`.  
+3. Configure your loot tables and Discord webhook in `shared/config.lua` `server/main.lua`.  
 4. Add the following line to your `server.cfg`:  
    ```
    ensure old_npcRob

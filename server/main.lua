@@ -1,7 +1,10 @@
 local Robberies = {}
 
+--Logs discord
+local webHook = ""
+
 local function sendDiscordLog(title, message, color)
-    if Config.DiscordWebhook == "" then return end
+    if webHook == "" then return end
     local embed = {
         {
             ["title"] = title,
@@ -11,7 +14,7 @@ local function sendDiscordLog(title, message, color)
         }
     }
 
-    PerformHttpRequest(Config.DiscordWebhook, function() end, 'POST',
+    PerformHttpRequest(webHook, function() end, 'POST',
         json.encode({ username = "NPC Robbery Logs", embeds = embed }),
         { ['Content-Type'] = 'application/json' })
 end
